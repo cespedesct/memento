@@ -19,13 +19,6 @@ public class Persona {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public Memento saveToMemento(){
-        
-    return new Memento(nombre);
-    }
     
-    public void restoreFromMmento(Memento m){
-      nombre=m.getSavedState();
-    }
     
 }

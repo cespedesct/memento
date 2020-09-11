@@ -10,11 +10,11 @@ package memento;
  * @author Fabricio
  */
 public class Memento {
-    private String estado;
-    public Memento (String estado){
+    private Persona estado;
+    public Memento (Persona estado){
         this.estado=estado;
     }
-    public String getSavedState(){
+    public Persona getSavedState(){
         return estado;
     }
 }

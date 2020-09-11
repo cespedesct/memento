@@ -14,6 +14,7 @@ import java.util.HashSet;
  */
 public class inicio extends javax.swing.JFrame {
     private Persona Persona;
+    private Originator Originator;
     private Caretaker Caretaker;
     private int index;
     private int longitud;
@@ -23,6 +24,7 @@ public class inicio extends javax.swing.JFrame {
     public inicio() {
         Persona= new Persona();
         Caretaker=new Caretaker();
+        Originator=new Originator();
         index=0;
         longitud=0;
         initComponents();
@@ -119,8 +121,10 @@ public class inicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
+        Persona=new Persona();
         Persona.setNombre(NameField.getText());
-        Caretaker.addMemento(Persona.saveToMemento());
+        Originator.setEstado(Persona);
+        Caretaker.addMemento(Originator.saveToMemento());
         longitud=longitud+1;
         if (longitud!=1){
         index=index+1;
@@ -132,8 +136,10 @@ public class inicio extends javax.swing.JFrame {
         if(index!=0){
         index=index-1;
         } 
-        Memento m1=Caretaker.getMemento(index);
-         NameField.setText(m1.getSavedState());
+        Originator.restoreFromMemento(Caretaker.getMemento(index));
+        Persona=Originator.getEstado();
+        
+        NameField.setText(Persona.getNombre());
          
     }//GEN-LAST:event_BackButtonActionPerformed
 
@@ -142,8 +148,9 @@ public class inicio extends javax.swing.JFrame {
         {
          index=index+1;
         }
-        Memento m1=Caretaker.getMemento(index);
-         NameField.setText(m1.getSavedState());
+        Originator.restoreFromMemento(Caretaker.getMemento(index));
+        Persona=Originator.getEstado();
+        NameField.setText(Persona.getNombre());
     }//GEN-LAST:event_ForwardButtonActionPerformed
 
     private void NameFieldInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_NameFieldInputMethodTextChanged
