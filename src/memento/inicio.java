@@ -1,6 +1,10 @@
 package memento;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,7 +18,6 @@ import java.util.HashSet;
  */
 public class inicio extends javax.swing.JFrame {
     private Persona Persona;
-    private Originator Originator;
     private Caretaker Caretaker;
     private int index;
     private int longitud;
@@ -24,7 +27,6 @@ public class inicio extends javax.swing.JFrame {
     public inicio() {
         Persona= new Persona();
         Caretaker=new Caretaker();
-        Originator=new Originator();
         index=0;
         longitud=0;
         initComponents();
@@ -45,6 +47,10 @@ public class inicio extends javax.swing.JFrame {
         ForwardButton = new javax.swing.JButton();
         NameField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        LastNameField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        PhoneField = new javax.swing.JTextField();
 
         jButton1.setText("jButton1");
 
@@ -81,66 +87,96 @@ public class inicio extends javax.swing.JFrame {
 
         jLabel1.setText("Nombre");
 
+        jLabel2.setText("Apellido");
+
+        jLabel3.setText("Telefono");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ForwardButton)
-                    .addComponent(BackButton))
-                .addGap(212, 212, 212))
             .addGroup(layout.createSequentialGroup()
                 .addGap(106, 106, 106)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(SaveButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addGap(45, 45, 45)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(NameField, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                    .addComponent(LastNameField)
+                    .addComponent(PhoneField))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(45, 45, 45)
-                        .addComponent(NameField, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 117, Short.MAX_VALUE))
+                        .addGap(140, 140, 140)
+                        .addComponent(BackButton)
+                        .addGap(51, 51, 51)
+                        .addComponent(ForwardButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(189, 189, 189)
+                        .addComponent(SaveButton)))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(127, Short.MAX_VALUE)
+                .addContainerGap(118, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(NameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(LastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(PhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(103, 103, 103)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BackButton)
+                    .addComponent(ForwardButton))
+                .addGap(27, 27, 27)
                 .addComponent(SaveButton)
-                .addGap(13, 13, 13)
-                .addComponent(BackButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ForwardButton)
-                .addGap(191, 191, 191))
+                .addGap(58, 58, 58))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
-        Persona=new Persona();
-        Persona.setNombre(NameField.getText());
-        Originator.setEstado(Persona);
-        Caretaker.addMemento(Originator.saveToMemento());
+         Persona.setNombre(NameField.getText());
+         Persona.setApellido(LastNameField.getText());
+         Persona.setTelefono(Integer.parseInt(PhoneField.getText()));
+        try {
+            Caretaker.addMemento(Persona.saveToMemento());
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(inicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
         longitud=longitud+1;
         if (longitud!=1){
         index=index+1;
         }
           System.out.println("nombre guardado "+NameField.getText());
+          System.out.println("apellido guardado "+LastNameField.getText());
+          System.out.println("telefono guardado "+PhoneField.getText());
     }//GEN-LAST:event_SaveButtonActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        if(index!=0){
+      if(index!=0){
         index=index-1;
         } 
-        Originator.restoreFromMemento(Caretaker.getMemento(index));
-        Persona=Originator.getEstado();
+        Memento m1=Caretaker.getMemento(index);
+        Object actual=m1.getSavedState();
+        Persona anterior= (Persona) actual;
+          NameField.setText(anterior.getNombre());
+          LastNameField.setText(anterior.getApellido());
+          PhoneField.setText(String.valueOf(anterior.getTelefono()));
+            
         
-        NameField.setText(Persona.getNombre());
-         
+     
     }//GEN-LAST:event_BackButtonActionPerformed
 
     private void ForwardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ForwardButtonActionPerformed
@@ -148,9 +184,13 @@ public class inicio extends javax.swing.JFrame {
         {
          index=index+1;
         }
-        Originator.restoreFromMemento(Caretaker.getMemento(index));
-        Persona=Originator.getEstado();
-        NameField.setText(Persona.getNombre());
+        Memento m1=Caretaker.getMemento(index);
+        Object actual=m1.getSavedState();
+        Persona siguiente= (Persona) actual;
+          NameField.setText(siguiente.getNombre());
+          LastNameField.setText(siguiente.getApellido());
+          PhoneField.setText(String.valueOf(siguiente.getTelefono()));
+         
     }//GEN-LAST:event_ForwardButtonActionPerformed
 
     private void NameFieldInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_NameFieldInputMethodTextChanged
@@ -197,9 +237,13 @@ public class inicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton;
     private javax.swing.JButton ForwardButton;
+    private javax.swing.JTextField LastNameField;
     private javax.swing.JTextField NameField;
+    private javax.swing.JTextField PhoneField;
     private javax.swing.JButton SaveButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

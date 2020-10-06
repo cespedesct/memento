@@ -5,16 +5,18 @@
  */
 package memento;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Fabricio
  */
 public class Memento {
-    private Persona estado;
-    public Memento (Persona estado){
+    private Object estado;
+    public Memento (Object estado){
         this.estado=estado;
     }
-    public Persona getSavedState(){
+    public Object getSavedState(){
         return estado;
     }
 }
